@@ -3,9 +3,9 @@ trigger:
 
 variables:
   AssemblyVersion: '0.0.1'
-  solution: 'CoreBasicSample/src/javaappspringboot.Service.sln'
-  serviceProject: 'CoreBasicSample/src/javaappspringboot.Service/javaappspringboot.Service.csproj'
-  serviceProjectDir: 'CoreBasicSample/src/javaappspringboot.Service'
+  solution: 'CoreBasicSample/src/aspdotnet00.Service.sln'
+  serviceProject: 'CoreBasicSample/src/aspdotnet00.Service/javaappspringboot.Service.csproj'
+  serviceProjectDir: 'CoreBasicSample/src/aspdotnet00.Service'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -76,7 +76,7 @@ stages:
 
       - job: "BuildAngularApp"
         variables:
-          uiFolder: CoreBasicSample/src/MyWonderfulApp.Service/UI
+          uiFolder: CoreBasicSample/src/aspdotnet00.Service/UI
         pool:
           name: Hosted Ubuntu 1604
 
@@ -122,7 +122,7 @@ stages:
               - task: ExtractFiles@1
                 displayName: 'Extract files for base service '
                 inputs:
-                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/javaappspringboot.Service.zip
+                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/aspdotnet00.Service.zip
                   destinationFolder: '$(Pipeline.Workspace)/FullSite'
 
                 continueOnError: true
@@ -130,7 +130,7 @@ stages:
               - task: ExtractFiles@1
                 displayName: 'Extract files for angular app'
                 inputs:
-                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/javaappspringboot.Service.zip
+                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/aspdotnet00.Service.zip
                   destinationFolder: '$(Pipeline.Workspace)/FullSite'
 
               - task: CopyFiles@2
@@ -141,10 +141,10 @@ stages:
 
                 continueOnError: true
               - task: AzureRmWebAppDeployment@4
-                displayName: 'Azure App Service Deploy: javaappspringboot'
+                displayName: 'Azure App Service Deploy: aspdotnet00'
                 inputs:
                   azureSubscription: 'MyAzureRM'
-                  WebAppName: javaappspringboot
+                  WebAppName: aspdotnet00
                   Package: '$(Pipeline.Workspace)/FullSite'
 
 
