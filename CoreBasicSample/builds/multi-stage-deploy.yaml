@@ -141,10 +141,10 @@ stages:
 
                 continueOnError: true
               - task: AzureRmWebAppDeployment@4
-                displayName: 'Azure App Service Deploy: MyWonderfulAppService'
+                displayName: 'Azure App Service Deploy: javaappspringboot'
                 inputs:
                   azureSubscription: 'MyAzureRM'
-                  WebAppName: MyWonderfulAppService
+                  WebAppName: javaappspringboot
                   Package: '$(Pipeline.Workspace)/FullSite'
 
 
