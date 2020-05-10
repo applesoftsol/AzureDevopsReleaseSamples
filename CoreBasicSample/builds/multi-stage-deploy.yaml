@@ -3,9 +3,9 @@ trigger:
 
 variables:
   AssemblyVersion: '0.0.1'
-  solution: 'CoreBasicSample/src/MyWonderfulApp.Service.sln'
-  serviceProject: 'CoreBasicSample/src/MyWonderfulApp.Service/MyWonderfulApp.Service.csproj'
-  serviceProjectDir: 'CoreBasicSample/src/MyWonderfulApp.Service'
+  solution: 'CoreBasicSample/src/javaappspringboot.Service.sln'
+  serviceProject: 'CoreBasicSample/src/javaappspringboot.Service/javaappspringboot.Service.csproj'
+  serviceProjectDir: 'CoreBasicSample/src/javaappspringboot.Service'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -122,7 +122,7 @@ stages:
               - task: ExtractFiles@1
                 displayName: 'Extract files for base service '
                 inputs:
-                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/MyWonderfulApp.Service.zip
+                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/javaappspringboot.Service.zip
                   destinationFolder: '$(Pipeline.Workspace)/FullSite'
 
                 continueOnError: true
@@ -130,7 +130,7 @@ stages:
               - task: ExtractFiles@1
                 displayName: 'Extract files for angular app'
                 inputs:
-                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/MyWonderfulApp.Service.zip
+                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/javaappspringboot.Service.zip
                   destinationFolder: '$(Pipeline.Workspace)/FullSite'
 
               - task: CopyFiles@2
