@@ -4,7 +4,7 @@ trigger:
 variables:
   AssemblyVersion: '0.0.1'
   solution: 'CoreBasicSample/src/aspdotnet00.Service.sln'
-  serviceProject: 'CoreBasicSample/src/aspdotnet00.Service/javaappspringboot.Service.csproj'
+  serviceProject: 'CoreBasicSample/src/aspdotnet00.Service/aspdotnet00.Service.csproj'
   serviceProjectDir: 'CoreBasicSample/src/aspdotnet00.Service'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
@@ -73,42 +73,6 @@ stages:
           inputs:
             PathtoPublish: 'CoreBasicSample/assets/iis/web.config.OutOfProcessSample'
             ArtifactName: assets
-
-      - job: "BuildAngularApp"
-        variables:
-          uiFolder: CoreBasicSample/src/aspdotnet00.Service/UI
-        pool:
-          name: Hosted Ubuntu 1604
-
-        steps:
-        - task: DeleteFiles@1
-          displayName: 'Delete previous node_modules'
-          inputs:
-            SourceFolder: '$(uiFolder)/node_modules'
-            Contents: '**'
-
-        - task: Npm@1
-          displayName: 'npm custom'
-          inputs:
-            command: custom
-            workingDir: $(uiFolder)
-            verbose: false
-            customCommand: ci
-
-        - task: Npm@1
-          displayName: 'npm run prod'
-          inputs:
-            command: custom
-            workingDir: $(uiFolder)
-            verbose: false
-            customCommand: 'run prod'
-
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: AngularUi'
-          inputs:
-            PathtoPublish: '$(uiFolder)/../www'
-            ArtifactName: AngularUi
-
   - stage: deploy
     dependsOn: build_test
     jobs:
@@ -125,26 +89,10 @@ stages:
                   archiveFilePatterns:  $(Pipeline.Workspace)/Service/aspdotnet00.Service.zip
                   destinationFolder: '$(Pipeline.Workspace)/FullSite'
 
-                continueOnError: true
-
-              - task: ExtractFiles@1
-                displayName: 'Extract files for angular app'
-                inputs:
-                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/aspdotnet00.Service.zip
-                  destinationFolder: '$(Pipeline.Workspace)/FullSite'
-
-              - task: CopyFiles@2
-                displayName: 'Copy angular files app'
-                inputs:
-                  SourceFolder: '$(Pipeline.Workspace)/AngularUi'
-                  TargetFolder: '$(Pipeline.Workspace)/FullSite/www'
-
-                continueOnError: true
               - task: AzureRmWebAppDeployment@4
                 displayName: 'Azure App Service Deploy: aspdotnet00'
                 inputs:
                   azureSubscription: 'MyAzureRM'
                   WebAppName: aspdotnet00
                   Package: '$(Pipeline.Workspace)/FullSite'
-
 
