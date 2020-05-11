@@ -5,9 +5,6 @@
 
 trigger:
 - master
-
-pool:
-  vmImage: 'ubuntu-latest'
 - stage: deploy
   jobs:
   - deployment: DeployWeb
