@@ -3,9 +3,9 @@ trigger:
 
 variables:
   AssemblyVersion: '0.0.1'
-  solution: 'CoreBasicSample/src/aspdotnet00.Service.sln'
-  serviceProject: 'CoreBasicSample/src/aspdotnet00.Service/aspdotnet00.Service.csproj'
-  serviceProjectDir: 'CoreBasicSample/src/aspdotnet00.Service'
+  solution: 'CoreBasicSample/src/MyWonderfulApp.Service.sln'
+  serviceProject: 'CoreBasicSample/src/MyWonderfulApp.Service/MyWonderfulApp.Service.csproj'
+  serviceProjectDir: 'CoreBasicSample/src/MyWonderfulApp.Service'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -22,6 +22,12 @@ stages:
           displayName: 'Use .NET Core sdk 2.2.105'
           inputs:
             version: 2.2.105
+
+        - task: GitVersion@0
+          displayName: 'GitVersion '
+          inputs:
+            BuildNamePrefix: 'MyWonderfulApp Package'
+
         - task: DotNetCoreCLI@1
           displayName: 'dotnet restore'
           inputs:
@@ -73,6 +79,7 @@ stages:
           inputs:
             PathtoPublish: 'CoreBasicSample/assets/iis/web.config.OutOfProcessSample'
             ArtifactName: assets
+
   - stage: deploy
     dependsOn: build_test
     jobs:
@@ -86,11 +93,13 @@ stages:
               - task: ExtractFiles@1
                 displayName: 'Extract files for base service '
                 inputs:
-                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/aspdotnet00.Service.zip
+                  archiveFilePatterns:  $(Pipeline.Workspace)/Service/MyWonderfulApp.Service.zip
                   destinationFolder: '$(Pipeline.Workspace)/FullSite'
 
+                continueOnError: true
+
               - task: AzureRmWebAppDeployment@4
-                displayName: 'Azure App Service Deploy: aspdotnet00'
+                displayName: 'Azure App Service Deploy: MyWonderfulAppService'
                 inputs:
                   azureSubscription: 'MyAzureRM'
                   WebAppName: aspdotnet00
