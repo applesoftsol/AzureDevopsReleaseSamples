@@ -23,11 +23,6 @@ stages:
           inputs:
             version: 2.2.105
 
-        - task: GitVersion@0
-          displayName: 'GitVersion '
-          inputs:
-            BuildNamePrefix: 'MyWonderfulApp Package'
-
         - task: DotNetCoreCLI@1
           displayName: 'dotnet restore'
           inputs:
